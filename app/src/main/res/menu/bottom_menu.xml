@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_alarm"
+        android:icon="@drawable/icon_alarm"
+        android:title="@string/alarm_title" />
+    <item
+        android:id="@+id/nav_stopper"
+        android:icon="@drawable/icon_stopper"
+        android:title="@string/stopper_title" />
+    <item
+        android:id="@+id/nav_timer"
+        android:icon="@drawable/icon_timer"
+        android:title="@string/timer_title" />
+</menu>
