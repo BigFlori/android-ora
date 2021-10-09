@@ -27,13 +27,27 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val currentItemId = bottomNavigationView.selectedItemId
+        if(currentItemId == item.itemId)
+            return true
+
         lateinit var desiredFragment: Fragment
         when(item.itemId) {
             R.id.nav_alarm -> desiredFragment = AlarmFragment()
             R.id.nav_stopper -> desiredFragment = StopperFragment()
             R.id.nav_timer -> desiredFragment = TimerFragment()
         }
-        this.supportFragmentManager.beginTransaction().replace(R.id.main_container, desiredFragment).commit()
+
+        if(currentItemId > item.itemId) {
+            this.supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.from_left, R.anim.to_right)
+                .replace(R.id.main_container, desiredFragment).commit()
+        } else {
+            this.supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.from_right, R.anim.to_left)
+                .replace(R.id.main_container, desiredFragment).commit()
+        }
         return true
     }
+    
 }
