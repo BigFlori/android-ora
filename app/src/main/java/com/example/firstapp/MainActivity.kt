@@ -1,13 +1,12 @@
 package com.example.firstapp
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.firstapp.fragments.AlarmFragment
 import com.example.firstapp.fragments.StopperFragment
 import com.example.firstapp.fragments.TimerFragment
@@ -49,5 +48,5 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         return true
     }
-    
+
 }

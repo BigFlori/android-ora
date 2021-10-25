@@ -5,6 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.firstapp.AlarmAdapter
+import com.example.firstapp.AlarmItem
+import com.example.firstapp.MainActivity
 import com.example.firstapp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +33,15 @@ class AlarmFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+    }
+
+    private fun generateExampleList(size: Int): List<AlarmItem> {
+        val list = ArrayList<AlarmItem>()
+        for(i in 0 until size) {
+            list += AlarmItem(i, i*3, "Egyszer", i%2==0)
+        }
+        return list
     }
 
     override fun onCreateView(
@@ -35,7 +49,14 @@ class AlarmFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alarm, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_alarm, container, false)
+        val alarmRecyclerView: RecyclerView = view.findViewById(R.id.alarm_recycler_view)
+        alarmRecyclerView.adapter = AlarmAdapter(generateExampleList(10))
+        if (container != null) {
+            alarmRecyclerView.layoutManager = LinearLayoutManager(container.context)
+        }
+        alarmRecyclerView.setHasFixedSize(true)
+        return view
     }
 
     companion object {
