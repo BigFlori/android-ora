@@ -1,13 +1,17 @@
 package com.example.firstapp.fragments
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firstapp.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.w3c.dom.Text
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +27,7 @@ class StopperFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var stopperRunning: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +38,10 @@ class StopperFragment : Fragment() {
     }
 
     private fun convertNumber(number: Int): String {
-        if(number < 10 && number > -1)
-            return "0$number"
+        return if(number < 10 && number > -1)
+            "0$number"
         else
-            return "$number"
+            "$number"
     }
 
     private fun generateExampleList(size: Int): List<RoundtimeItem> {
@@ -47,18 +52,41 @@ class StopperFragment : Fragment() {
         return list
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_stopper, container, false)
+
         val stopperRecyclerView: RecyclerView = view.findViewById(R.id.stopper_recycler_view)
-        stopperRecyclerView.adapter = RoundtimeAdapter(generateExampleList(10))
+        val roundtimeAdapter: RoundtimeAdapter = RoundtimeAdapter()
+        val fabStartPause: FloatingActionButton = view.findViewById(R.id.fab_stopper_startpause)
+        val fabRoundtime: FloatingActionButton = view.findViewById(R.id.fab_stopper_roundtime)
+        val fabReset: FloatingActionButton = view.findViewById(R.id.fab_stopper_reset)
+        val stopperValue: TextView = view.findViewById(R.id.stopper_value)
+
+        stopperRecyclerView.adapter = roundtimeAdapter
         if (container != null) {
             stopperRecyclerView.layoutManager = LinearLayoutManager(container.context)
         }
         stopperRecyclerView.setHasFixedSize(true)
+
+        fabStartPause.setOnClickListener {
+            if(!stopperRunning)
+                fabStartPause.setImageResource(R.drawable.icon_pause)
+            else
+                fabStartPause.setImageResource(R.drawable.icon_play)
+            stopperRunning = !stopperRunning
+        }
+
+        fabRoundtime.setOnClickListener {
+            if(!stopperValue.text.equals("00:00.00"))
+                roundtimeAdapter.addItem(RoundtimeItem(1, stopperValue.text as String))
+        }
+
+        fabReset.setOnClickListener {
+            roundtimeAdapter.clearList()
+            stopperValue.text = "00:00.00"
+        }
+
         return view
     }
 
